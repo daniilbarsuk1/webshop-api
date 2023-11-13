@@ -1,7 +1,6 @@
 package com.daniilbarsuk.webshopapi.services;
 
 import com.daniilbarsuk.webshopapi.entities.Basket;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.NoSuchElementException;
 

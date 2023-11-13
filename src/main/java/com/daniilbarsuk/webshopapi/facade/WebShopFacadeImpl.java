@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 
-import java.util.NoSuchElementException;
-
 @Component
 public class WebShopFacadeImpl implements WebShopFacade{
 	@Autowired
