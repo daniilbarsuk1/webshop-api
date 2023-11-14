@@ -36,8 +36,19 @@ public class WebShopFacadeImpl implements WebShopFacade{
 		Basket basket = basketService.get(id);
 		return mapper.toBasketDto(basket);
 	}
-	public BasketDto addItem(Integer basketId, Integer itemId){
-		Basket basket = basketService.add(basketId, itemId);
+	public BasketDto addItemToBasket(Integer basketId, Integer itemId){
+		Basket basket = basketService.addItemToBasket(basketId, itemId);
 		return mapper.toBasketDto(basket);
 	}
+	public BasketDto deleteItemFromBasket(Integer basketId, Integer itemId){
+		Basket basket = basketService.deleteItemFromBasket(basketId, itemId);
+		return mapper.toBasketDto(basket);
+	}
+	public void deleteBasket(Integer id){
+		basketService.delete(id);
+	}
+	public void deleteItem(Integer id){
+		itemService.delete(id);
+	}
+
 }

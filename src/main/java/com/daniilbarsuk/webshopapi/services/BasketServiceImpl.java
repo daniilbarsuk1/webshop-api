@@ -7,8 +7,6 @@ import com.daniilbarsuk.webshopapi.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-
 @Service
 public class BasketServiceImpl implements BasketService {
 	@Autowired
@@ -19,13 +17,22 @@ public class BasketServiceImpl implements BasketService {
 		Basket basket = new Basket();
 		return basketRepository.save(basket);
 	}
-	public Basket get(Integer id) throws NoSuchElementException {
+	public Basket get(Integer id) {
 		return basketRepository.findById(id).orElseThrow();
 	}
-	public Basket add(Integer basketId, Integer itemId){
+	public Basket addItemToBasket(Integer basketId, Integer itemId){
 		Basket basket = basketRepository.findById(basketId).orElseThrow();
 		Item item = itemRepository.findById(itemId).orElseThrow();
 		basket.getItems().add(item);
 		return basketRepository.save(basket);
+	}
+	public Basket deleteItemFromBasket(Integer basketId, Integer itemId){
+		Basket basket = basketRepository.findById(basketId).orElseThrow();
+		Item item = itemRepository.findById(itemId).orElseThrow();
+		basket.getItems().remove(item);
+		return basketRepository.save(basket);
+	}
+	public void delete(Integer id){
+		basketRepository.deleteById(id);
 	}
 }

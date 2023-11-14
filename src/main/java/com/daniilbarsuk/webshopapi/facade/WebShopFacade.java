@@ -8,5 +8,8 @@ public interface WebShopFacade {
 	BasketDto createBasket ();
 	ItemDto getItem(Integer id);
 	BasketDto getBasket(Integer id);
-	BasketDto addItem(Integer basketId, Integer itemId);
+	BasketDto addItemToBasket(Integer basketId, Integer itemId);
+	void deleteBasket(Integer id);
+	void deleteItem(Integer id);
+	BasketDto deleteItemFromBasket(Integer basketId, Integer itemId);
 }

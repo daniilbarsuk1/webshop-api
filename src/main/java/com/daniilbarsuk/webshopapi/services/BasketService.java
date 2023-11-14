@@ -6,6 +6,8 @@ import java.util.NoSuchElementException;
 
 public interface BasketService {
 	Basket create();
-	Basket get(Integer id) throws NoSuchElementException;
-	Basket add(Integer basketId, Integer itemId) throws NoSuchElementException;
+	Basket get(Integer id);
+	Basket addItemToBasket(Integer basketId, Integer itemId);
+	Basket deleteItemFromBasket(Integer basketId, Integer itemId);
+	void delete(Integer id);
 }

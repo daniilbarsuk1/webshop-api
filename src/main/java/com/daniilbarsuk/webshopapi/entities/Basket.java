@@ -10,7 +10,7 @@ public class Basket {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 		joinColumns = @JoinColumn(name="basket_id"),
 		inverseJoinColumns = @JoinColumn(name="item_id")

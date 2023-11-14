@@ -5,6 +5,8 @@ import com.daniilbarsuk.webshopapi.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class ItemServiceImpl implements ItemService {
 	@Autowired
@@ -14,7 +16,11 @@ public class ItemServiceImpl implements ItemService {
 		return itemRepository.save(item);
 	}
 
-	public Item get (Integer id) {
+	public Item get (Integer id) throws NoSuchElementException {
 		return itemRepository.findById(id).orElseThrow();
+	}
+
+	public void delete (Integer id) throws IllegalArgumentException {
+		itemRepository.deleteById(id);
 	}
 }

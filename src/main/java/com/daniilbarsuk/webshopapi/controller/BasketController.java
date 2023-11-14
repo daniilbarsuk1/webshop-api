@@ -1,6 +1,7 @@
 package com.daniilbarsuk.webshopapi.controller;
 
 import com.daniilbarsuk.webshopapi.dto.BasketDto;
+import com.daniilbarsuk.webshopapi.dto.ItemDto;
 import com.daniilbarsuk.webshopapi.facade.WebShopFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,13 +29,33 @@ public class BasketController {
 		}
 	}
 	@PostMapping("/{basket_id}/items/{item_id}")
-	public ResponseEntity<BasketDto> addItem(@PathVariable("basket_id") Integer basketId,
+	public ResponseEntity<BasketDto> addItemToBasket(@PathVariable("basket_id") Integer basketId,
 	                     @PathVariable("item_id") Integer itemId){
 		try {
-			return new ResponseEntity<>(facade.addItem(basketId, itemId), HttpStatus.OK);
+			return new ResponseEntity<>(facade.addItemToBasket(basketId, itemId), HttpStatus.OK);
 		}
 		catch (NoSuchElementException e){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	@DeleteMapping("/{basket_id}/items/{item_id}")
+	public ResponseEntity<?> deleteItemFromBasket(@PathVariable("basket_id") Integer basketId, @PathVariable("item_id") Integer itemId){
+		try {
+			facade.deleteItemFromBasket(basketId, itemId);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		catch (IllegalArgumentException e){
+			return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteBasket(@PathVariable("id") Integer id){
+		try {
+			facade.deleteBasket(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		catch (IllegalArgumentException e){
+			return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 }
