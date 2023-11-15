@@ -7,7 +7,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
 
 import java.util.HashMap;
 import java.util.Map;

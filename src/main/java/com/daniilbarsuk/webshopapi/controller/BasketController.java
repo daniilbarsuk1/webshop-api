@@ -1,7 +1,6 @@
 package com.daniilbarsuk.webshopapi.controller;
 
 import com.daniilbarsuk.webshopapi.dto.BasketDto;
-import com.daniilbarsuk.webshopapi.dto.ItemDto;
 import com.daniilbarsuk.webshopapi.facade.WebShopFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
