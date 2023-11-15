@@ -1,3 +1,6 @@
+server:
+  host: localhost
+  port: 8080
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/webshop
@@ -5,6 +8,8 @@ spring:
     password: 111111
     driver-class-name: org.postgresql.Driver
   jpa:
-    database: postgresql
     hibernate:
       ddl-auto: update
+logging:
+  level:
+    org.springframework.web: INFO

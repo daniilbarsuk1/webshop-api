@@ -1,5 +1,6 @@
 package com.daniilbarsuk.webshopapi.controller;
 
+import com.daniilbarsuk.webshopapi.dto.ItemDetailsDto;
 import com.daniilbarsuk.webshopapi.dto.ItemDto;
 import com.daniilbarsuk.webshopapi.facade.WebShopFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class ItemController {
 	@Autowired
 	WebShopFacade facade;
 	@PostMapping
-	public ResponseEntity<ItemDto> create(String name, int price) {
-		return new ResponseEntity<>(facade.createItem(name, price), HttpStatus.CREATED);
+	public ResponseEntity<ItemDto> create(@RequestBody ItemDetailsDto itemDetailsDto) {
+		return new ResponseEntity<>(facade.createItem(itemDetailsDto), HttpStatus.CREATED);
 	}
 	@GetMapping ("/{item_id}")
 	public  ResponseEntity<ItemDto> get(@PathVariable("item_id") Integer id){
@@ -25,7 +26,7 @@ public class ItemController {
 			return new ResponseEntity<>(item, HttpStatus.OK);
 		}
 		catch (NoSuchElementException e){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

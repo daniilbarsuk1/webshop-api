@@ -1,10 +1,11 @@
 package com.daniilbarsuk.webshopapi.facade;
 
 import com.daniilbarsuk.webshopapi.dto.BasketDto;
+import com.daniilbarsuk.webshopapi.dto.ItemDetailsDto;
 import com.daniilbarsuk.webshopapi.dto.ItemDto;
 
 public interface WebShopFacade {
-	ItemDto createItem(String name, int price);
+	ItemDto createItem(ItemDetailsDto itemDetailsDto);
 	BasketDto createBasket ();
 	ItemDto getItem(Integer id);
 	BasketDto getBasket(Integer id);

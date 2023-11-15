@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 public class ItemServiceImpl implements ItemService {
 	@Autowired
 	ItemRepository itemRepository;
-	public Item create (String name, int price) {
+	public Item create (String name, Integer price) {
 		Item item = new Item(name, price);
 		return itemRepository.save(item);
 	}

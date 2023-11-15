@@ -1,6 +1,7 @@
 package com.daniilbarsuk.webshopapi.facade;
 
 import com.daniilbarsuk.webshopapi.dto.BasketDto;
+import com.daniilbarsuk.webshopapi.dto.ItemDetailsDto;
 import com.daniilbarsuk.webshopapi.dto.ItemDto;
 import com.daniilbarsuk.webshopapi.entities.Basket;
 import com.daniilbarsuk.webshopapi.entities.Item;
@@ -19,8 +20,8 @@ public class WebShopFacadeImpl implements WebShopFacade{
 	ItemService itemService;
 	@Autowired
 	WebShopMapper mapper;
-	public ItemDto createItem(String name, int price){
-		Item item = itemService.create(name, price);
+	public ItemDto createItem(ItemDetailsDto itemDetailsDto){
+		Item item = itemService.create(itemDetailsDto.name(), itemDetailsDto.price());
 		return mapper.toItemDto(item);
 	}
 
