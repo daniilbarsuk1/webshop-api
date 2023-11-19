@@ -1,12 +1,11 @@
 package com.daniilbarsuk.webshopapi;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,9 +21,22 @@ import static org.hamcrest.Matchers.*;
 class WebshopApiApplicationTests {
 	@LocalServerPort
 	private Integer port;
-
+	private static Map<String, String> credentials;
+	@Autowired
+	private PasswordEncoder encoder;
+	@Test
+	@Order(1)
+	public void shouldSignup(){
+		credentials = new HashMap<>();
+		credentials.put("username", "daniil");
+		credentials.put("password", encoder.encode("111111"));
+		given().body(credentials)
+			.when().contentType("application/json; charset=UTF-8").post("http://localhost:" + port + "/auth/signup")
+			.then().assertThat().statusCode(HttpStatus.CREATED.value())
+			.body("username", equalTo(credentials.get("username")));
+	}
 	public void createItem(Map<String, Object> itemDetails){
-		given().body(itemDetails)
+		given().auth().basic(credentials.get("username"), credentials.get("password")).body(itemDetails)
 			.when().contentType("application/json; charset=UTF-8").post("http://localhost:" + port +"/items")
 			.then().assertThat().statusCode(HttpStatus.CREATED.value())
 			.body("name", equalTo(itemDetails.get("name")))
@@ -32,7 +44,7 @@ class WebshopApiApplicationTests {
 
 	}
 	@Test
-	@Order(1)
+	@Order(2)
 	public void shouldCreateItem1(){
 		Map<String, Object> itemDetails = new HashMap<>();
 		itemDetails.put("name", "fridge");
@@ -40,7 +52,7 @@ class WebshopApiApplicationTests {
 		createItem(itemDetails);
 	}
 	@Test
-	@Order(2)
+	@Order(3)
 	public void shouldCreateItem2(){
 		Map<String, Object> itemDetails = new HashMap<>();
 		itemDetails.put("name", "laptop");
@@ -48,7 +60,7 @@ class WebshopApiApplicationTests {
 		createItem(itemDetails);
 	}
 	@Test
-	@Order(3)
+	@Order(4)
 	public void shouldCreateItem3(){
 		Map<String, Object> itemDetails = new HashMap<>();
 		itemDetails.put("name", "smartphone");
@@ -56,63 +68,49 @@ class WebshopApiApplicationTests {
 		createItem(itemDetails);
 	}
 	@Test
-	@Order(4)
+	@Order(5)
 	public void shouldGetItem(){
-		given()
+		given().auth().basic(credentials.get("username"), credentials.get("password"))
 			.when().get("http://localhost:" + port +"/items/1")
 			.then().assertThat().statusCode(HttpStatus.OK.value());
 	}
-	@Test
-	@Order(5)
-	public void shouldCreateBasket(){
-		given()
-			.when().post("http://localhost:" + port +"/baskets")
-			.then().assertThat().statusCode(HttpStatus.CREATED.value());
-	}
-	@Test
-	@Order(6)
-	public void shouldAddItem1ToBasket(){
-		given()
-			.when().post("http://localhost:" + port +"/baskets/1/items/1")
-			.then().assertThat().statusCode(HttpStatus.OK.value())
-			.body("items", hasItem(hasKey("name")))
-			.body("items", hasItem(hasKey("price")));
-	}
-	@Test
-	@Order(6)
-	public void shouldAddItem2ToBasket(){
-		given()
-			.when().post("http://localhost:" + port +"/baskets/1/items/2")
-			.then().assertThat().statusCode(HttpStatus.OK.value())
-			.body("items", hasItem(hasKey("name")))
-			.body("items", hasItem(hasKey("price")));
-	}
+
 	@Test
 	@Order(7)
+	public void shouldAddItem1ToBasket(){
+		given().auth().basic(credentials.get("username"), credentials.get("password"))
+			.when().post("http://localhost:" + port +"/basket/items/1")
+			.then().assertThat().statusCode(HttpStatus.OK.value())
+			.body("items", hasItem(hasKey("name")))
+			.body("items", hasItem(hasKey("price")));
+	}
+	@Test
+	@Order(8)
+	public void shouldAddItem2ToBasket(){
+		given().auth().basic(credentials.get("username"), credentials.get("password"))
+			.when().post("http://localhost:" + port +"/basket/items/2")
+			.then().assertThat().statusCode(HttpStatus.OK.value())
+			.body("items", hasItem(hasKey("name")))
+			.body("items", hasItem(hasKey("price")));
+	}
+	@Test
+	@Order(9)
 	public void shouldGetBasket(){
-		given()
-			.when().get("http://localhost:" + port +"/baskets/1")
+		given().auth().basic(credentials.get("username"), credentials.get("password"))
+			.when().get("http://localhost:" + port +"/basket")
 			.then().assertThat().statusCode(HttpStatus.OK.value())
 			.body("items", hasSize(2))
 			.body("items", hasItem(hasKey("name")))
 			.body("items", hasItem(hasKey("price")));
 	}
 	@Test
-	@Order(8)
+	@Order(10)
 	public void shouldDeleteItemFromBasket(){
-		given()
-			.when().delete("http://localhost:" + port +"/baskets/1/items/1")
+		given().auth().basic(credentials.get("username"), credentials.get("password"))
+			.when().delete("http://localhost:" + port +"/basket/items/1")
 			.then().assertThat().statusCode(HttpStatus.OK.value())
 			.body("items", hasSize(1))
 			.body("items", hasItem(hasKey("name")))
 			.body("items", hasItem(hasKey("price")));
-	}
-
-	@Test
-	@Order(9)
-	public void shouldDeleteBasket(){
-		given()
-			.when().delete("http://localhost:" + port +"/baskets/1")
-			.then().assertThat().statusCode(HttpStatus.OK.value());
 	}
 }

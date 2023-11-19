@@ -10,48 +10,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/baskets")
+@RequestMapping("/basket")
 public class BasketController {
 	@Autowired
 	WebShopFacade facade;
-	@PostMapping
-	public ResponseEntity<BasketDto> create(){
-		return new ResponseEntity<>(facade.createBasket(), HttpStatus.CREATED);
-	}
-	@GetMapping("/{id}")
-	public ResponseEntity<BasketDto> get(@PathVariable Integer id){
+	@GetMapping
+	public ResponseEntity<BasketDto> get(){
 		try {
-			return new ResponseEntity<>(facade.getBasket(id), HttpStatus.OK);
+			return new ResponseEntity<>(facade.getBasket(), HttpStatus.OK);
 		}
 		catch(NoSuchElementException e){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	@PostMapping("/{basket_id}/items/{item_id}")
-	public ResponseEntity<BasketDto> addItemToBasket(@PathVariable("basket_id") Integer basketId,
-	                     @PathVariable("item_id") Integer itemId){
+	@PostMapping("/items/{item_id}")
+	public ResponseEntity<BasketDto> addItemToBasket(@PathVariable("item_id") Integer itemId){
 		try {
-			return new ResponseEntity<>(facade.addItemToBasket(basketId, itemId), HttpStatus.OK);
+			return new ResponseEntity<>(facade.addItemToBasket(itemId), HttpStatus.OK);
 		}
 		catch (NoSuchElementException e){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	@DeleteMapping("/{basket_id}/items/{item_id}")
-	public ResponseEntity<?> deleteItemFromBasket(@PathVariable("basket_id") Integer basketId, @PathVariable("item_id") Integer itemId){
+	@DeleteMapping("/items/{item_id}")
+	public ResponseEntity<?> deleteItemFromBasket(@PathVariable("item_id") Integer itemId){
 		try {
-			BasketDto basket = facade.deleteItemFromBasket(basketId, itemId);
+			BasketDto basket = facade.deleteItemFromBasket(itemId);
 			return new ResponseEntity<>(basket, HttpStatus.OK);
-		}
-		catch (IllegalArgumentException e){
-			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteBasket(@PathVariable("id") Integer id){
-		try {
-			facade.deleteBasket(id);
-			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		catch (IllegalArgumentException e){
 			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
