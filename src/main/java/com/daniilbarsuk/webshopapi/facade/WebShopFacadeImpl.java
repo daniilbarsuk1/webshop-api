@@ -33,11 +33,6 @@ public class WebShopFacadeImpl implements WebShopFacade{
 		return mapper.toItemDto(item);
 	}
 
-	public BasketDto createBasket () {
-		Basket basket = basketService.create();
-		return mapper.toBasketDto(basket);
-	}
-
 	@Override
 	public UserDto createUser (UserDto userDto) {
 		User user = userService.create(userDto.username(), encoder.encode(userDto.password()));

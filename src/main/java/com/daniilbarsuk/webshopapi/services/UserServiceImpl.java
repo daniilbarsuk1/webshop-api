@@ -33,8 +33,7 @@ public class UserServiceImpl implements UserService {
 
 	public User getCurrentUser () {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User) authentication.getPrincipal();
-		return user;
+		return (User) authentication.getPrincipal();
 	}
 	public void delete(Integer id){
 		userRepository.deleteById(id);
