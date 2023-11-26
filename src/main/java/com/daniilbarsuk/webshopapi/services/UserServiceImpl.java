@@ -38,4 +38,8 @@ public class UserServiceImpl implements UserService {
 	public void delete(Integer id){
 		userRepository.deleteById(id);
 	}
+
+	public Boolean exists (String username) {
+		return userRepository.existsByUsername(username);
+	}
 }

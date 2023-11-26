@@ -10,6 +10,7 @@ import com.daniilbarsuk.webshopapi.entities.User;
 import com.daniilbarsuk.webshopapi.mapper.WebShopMapper;
 import com.daniilbarsuk.webshopapi.services.BasketService;
 import com.daniilbarsuk.webshopapi.services.ItemService;
+import com.daniilbarsuk.webshopapi.services.UserService;
 import com.daniilbarsuk.webshopapi.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -72,6 +73,10 @@ public class WebShopFacadeImpl implements WebShopFacade{
 		Integer basketId = user.getBasket().getId();
 		basketService.delete(basketId);
 		userService.delete(user.getId());
+	}
+
+	public Boolean existsUser (String username) {
+		return userService.exists(username);
 	}
 
 

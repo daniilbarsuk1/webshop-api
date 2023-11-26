@@ -7,4 +7,5 @@ public interface UserService extends UserDetailsService {
 	User create(String username, String password);
 	User getCurrentUser();
 	void delete(Integer id);
+	Boolean exists(String username);
 }

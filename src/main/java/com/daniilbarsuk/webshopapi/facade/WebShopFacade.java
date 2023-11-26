@@ -14,4 +14,5 @@ public interface WebShopFacade {
 	BasketDto addItemToBasket(Integer itemId);
 	BasketDto deleteItemFromBasket(Integer itemId);
 	void deleteCurrentUser ();
+	Boolean existsUser(String username);
 }
